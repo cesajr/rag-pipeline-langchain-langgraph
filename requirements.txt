@@ -1,0 +1,13 @@
+langchain
+langchain-community
+langchain-core
+langchain-huggingface
+langchain-chroma
+langchain-openrouter
+langgraph
+chromadb
+sentence-transformers
+pypdf
+lxml
+beautifulsoup4
+python-dotenv

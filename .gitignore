@@ -1,0 +1,26 @@
+# --- Ambientes Virtuais ---
+venv/
+env/
+.venv/
+ENV/
+
+# --- Variáveis de Ambiente e Segredos ---
+.env
+.env.local
+*.env
+
+# --- Cache do Python ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+
+# --- Bancos Vetoriais Locais (Opcional, caso o Chroma salve arquivos locais) ---
+chroma_db/
+.chroma/
+
+# --- Arquivos do Sistema Operacional ---
+.DS_Store
+Thumbs.db
+.vscode/
