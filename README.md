@@ -13,9 +13,9 @@ Este repositório registra a jornada prática de desenvolvimento e maturação d
 ## Tech Stack e Arquitetura
 
 * **Linguagem:** Python 3.14+
-* **Orquestração & Agentes:** LangChain, LangGraph (`StateGraph`, `MemorySaver`, `add_messages`)
-* **Banco Vetorial & Embeddings:** ChromaDB, HuggingFace Embeddings (`mixedbread-ai/mxbai-embed-large-v1`)
-* **Data Loaders & Parsers:** `PyPDFLoader`, `BeautifulSoup` (`BSHTMLLoader`), `WebBaseLoader`, `WikipediaLoader`
+* **Orquestração e Agentes:** LangChain, LangGraph (`StateGraph`, `MemorySaver`, `add_messages`)
+* **Banco Vetorial e Embeddings:** ChromaDB, HuggingFace Embeddings (`mixedbread-ai/mxbai-embed-large-v1`)
+* **Data Loaders e Parsers:** `PyPDFLoader`, `BeautifulSoup` (`BSHTMLLoader`), `WebBaseLoader`, `WikipediaLoader`
 * **Interface Gráfica Web:** Streamlit
 * **Provedor de LLM:** OpenRouter API (`ChatOpenRouter` e `ChatOpenAI`)
 
@@ -34,7 +34,7 @@ rag-pipeline-langchain-langgraph/
 │
 ├── src/
 │   ├── example_research.py       # 1. Validação de conexão e chamada direta ao LLM
-│   ├── mini_rag.py               # 2. Primeiro Mini-RAG funcional com Wikipedia & LangGraph
+│   ├── mini_rag.py               # 2. Primeiro Mini-RAG funcional com Wikipedia e LangGraph
 │   ├── mini_rag_wikipedia.py     # 3. Refatoração para integração nativa do OpenRouter
 │   ├── mrag_wiki.py              # 4. RAG resiliente via Web Scraping com memória persistente
 │   ├── test_loaders.py           # 5. Extração e padronização de multi-formatos (PDF e HTML)
@@ -68,7 +68,7 @@ rag-pipeline-langchain-langgraph/
 ### 5. Ingestão e Padronização de Multi-Formatos (`src/test_loaders.py`)
 * **Objetivo:** Demonstrar a capacidade de converter arquivos corporativos heterogêneos (relatórios PDF e páginas HTML brutas) no objeto universal e padronizado `Document` do LangChain, preservando metadados analíticos.
 
-### 6. Validação de Recuperação & Comparação de Contexto (`src/test_retrieval.py`)
+### 6. Validação de Recuperação e Comparação de Contexto (`src/test_retrieval.py`)
 * **Objetivo:** Avaliar empiricamente a diferença qualitativa entre respostas puras de conhecimento geral do LLM vs. respostas ancoradas em contexto recuperado (*RAG*), analisando o impacto do parâmetro `top-k` na introdução de ruídos.
 
 ### 7. Ajuste Fino de Parâmetros e Prompts por Personas (`src/test_parameters.py`)
