@@ -1,18 +1,18 @@
-# 🚀 Pipeline RAG Avançado & Didático: Da Conexão Básica a Grafos, Parâmetros e Interface Web
+# Pipeline RAG: da conexão básica a grafos, parâmetros e interface web
 
-> **⚠️ Aviso Educacional Importante:** Este repositório é mantido estritamente para **fins didáticos, de portfólio e evolução de estudos**. Ele serve como uma implementação de referência estruturada para o aprendizado de arquiteturas de *Retrieval-Augmented Generation* (RAG) e Engenharia de Agentes. **Contribuições externas e Pull Requests (PRs) não são aceitos.** Sinta-se à vontade para realizar um *fork* ou clonar para uso pessoal.
+> **Aviso Importante:** Este repositório é mantido estritamente para **fins didáticos, de portfólio e evolução de estudos**. Ele serve como uma implementação de referência estruturada para o aprendizado de arquiteturas de *Retrieval-Augmented Generation* (RAG) e Engenharia de Agentes. **Contribuições externas e Pull Requests (PRs) não são aceitos.** Sinta-se à vontade para realizar um *fork* ou clonar para uso pessoal.
 
 ---
 
-## 🎯 Visão Geral do Projeto
+## Visão Geral do Projeto
 
 Este repositório registra a jornada prática de desenvolvimento e maturação de um pipeline de RAG end-to-end utilizando ecossistemas modernos em **Python**. O projeto evolui progressivamente desde chamadas diretas a modelos de linguagem até grafos de estados complexos com memória persistente, filtragem avançada por limiares de similaridade, metadados, engenharia de prompts por personas e uma interface gráfica web reativa.
 
 ---
 
-## 🛠️ Tech Stack & Arquitetura
+## Tech Stack e Arquitetura
 
-* **Linguagem:** Python 3.10+
+* **Linguagem:** Python 3.14+
 * **Orquestração & Agentes:** LangChain, LangGraph (`StateGraph`, `MemorySaver`, `add_messages`)
 * **Banco Vetorial & Embeddings:** ChromaDB, HuggingFace Embeddings (`mixedbread-ai/mxbai-embed-large-v1`)
 * **Data Loaders & Parsers:** `PyPDFLoader`, `BeautifulSoup` (`BSHTMLLoader`), `WebBaseLoader`, `WikipediaLoader`
@@ -21,7 +21,7 @@ Este repositório registra a jornada prática de desenvolvimento e maturação d
 
 ---
 
-## 📂 Estrutura do Repositório & Etapas Evolutivas
+## 📂 Estrutura do Repositório e Etapas Evolutivas
 
 O código está organizado de forma modular e progressiva para demonstrar o domínio técnico em 8 marcos fundamentais:
 
@@ -50,7 +50,7 @@ rag-pipeline-langchain-langgraph/
 
 ---
 
-## 🔬 Detalhamento Técnico dos Módulos
+## Detalhamento Técnico dos Módulos
 
 ### 1. Conexão Inicial ao LLM (`src/example_research.py`)
 * **Objetivo:** Validar a autenticação segura de credenciais via `python-dotenv` e testar a invocação direta do modelo gratuito na nuvem utilizando o wrapper `ChatOpenRouter`.
@@ -78,7 +78,7 @@ rag-pipeline-langchain-langgraph/
 
 ---
 
-## ⚙️ Guia de Instalação e Execução
+## Guia de Instalação e Execução
 
 ### 1. Clonar o Repositório
 ```bash
