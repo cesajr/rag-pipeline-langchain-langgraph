@@ -1,4 +1,4 @@
-# Jornada Prática de RAG: De Chamadas Básicas a Grafos com Memória e Loaders
+# RAG na prática: De Chamadas Básicas a Grafos com Memória e Loaders
 
 > **Aviso Importante:**  
 > Este repositório foi construído para fins estritamente **didáticos e educacionais**, funcionando como um guia de estudo e referência de código passo a passo. **Este projeto é mantido como um arquivo de estudo individual e NÃO aceita contribuições externas, alterações ou Pull Requests (PRs).** Sinta-se à vontade para realizar o *fork* ou clonar o projeto para uso pessoal e de estudo.
