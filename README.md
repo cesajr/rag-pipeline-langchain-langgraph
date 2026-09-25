@@ -1,78 +1,84 @@
-# RAG na prática: De Chamadas Básicas a Grafos com Memória e Loaders
+# 🚀 Pipeline RAG Avançado & Didático: Da Conexão Básica a Grafos, Parâmetros e Interface Web
 
-> **Aviso Importante:**  
-> Este repositório foi construído para fins estritamente **didáticos e educacionais**, funcionando como um guia de estudo e referência de código passo a passo. **Este projeto é mantido como um arquivo de estudo individual e NÃO aceita contribuições externas, alterações ou Pull Requests (PRs).** Sinta-se à vontade para realizar o *fork* ou clonar o projeto para uso pessoal e de estudo.
-
----
-
-Este repositório registra a evolução prática da construção de pipelines de **Retrieval-Augmented Generation (RAG)** e Engenharia de Agentes com **Python**, **LangChain**, **LangGraph**, **ChromaDB** e **OpenRouter**.
-
-O objetivo deste portfólio é demonstrar, de forma incremental e didática, a maturidade no manuseio de dados não estruturados, bancos vetoriais, controle de estado de conversação e boas práticas de segurança.
+> **⚠️ Aviso Educacional Importante:** Este repositório é mantido estritamente para **fins didáticos, de portfólio e evolução de estudos**. Ele serve como uma implementação de referência estruturada para o aprendizado de arquiteturas de *Retrieval-Augmented Generation* (RAG) e Engenharia de Agentes. **Contribuições externas e Pull Requests (PRs) não são aceitos.** Sinta-se à vontade para realizar um *fork* ou clonar para uso pessoal.
 
 ---
 
-## Stacks & Libs
+## 🎯 Visão Geral do Projeto
+
+Este repositório registra a jornada prática de desenvolvimento e maturação de um pipeline de RAG end-to-end utilizando ecossistemas modernos em **Python**. O projeto evolui progressivamente desde chamadas diretas a modelos de linguagem até grafos de estados complexos com memória persistente, filtragem avançada por limiares de similaridade, metadados, engenharia de prompts por personas e uma interface gráfica web reativa.
+
+---
+
+## 🛠️ Tech Stack & Arquitetura
+
 * **Linguagem:** Python 3.10+
-* **Orquestração & Agentes:** LangChain, LangGraph (`StateGraph`, `MemorySaver`)
-* **Vector Database & Embeddings:** ChromaDB, HuggingFace (`mixedbread-ai/mxbai-embed-large-v1`)
-* **Data Loaders:** `PyPDFLoader`, `BSHTMLLoader` / `BeautifulSoup`, `WebBaseLoader`, `WikipediaLoader`
-* **LLM Provider:** OpenRouter API (`ChatOpenRouter` e `ChatOpenAI`)
+* **Orquestração & Agentes:** LangChain, LangGraph (`StateGraph`, `MemorySaver`, `add_messages`)
+* **Banco Vetorial & Embeddings:** ChromaDB, HuggingFace Embeddings (`mixedbread-ai/mxbai-embed-large-v1`)
+* **Data Loaders & Parsers:** `PyPDFLoader`, `BeautifulSoup` (`BSHTMLLoader`), `WebBaseLoader`, `WikipediaLoader`
+* **Interface Gráfica Web:** Streamlit
+* **Provedor de LLM:** OpenRouter API (`ChatOpenRouter` e `ChatOpenAI`)
 
 ---
 
-## Arquitetura Evolutiva do Projeto
+## 📂 Estrutura do Repositório & Etapas Evolutivas
 
-Abaixo está o detalhamento de cada script criado ao longo da curva de aprendizado:
+O código está organizado de forma modular e progressiva para demonstrar o domínio técnico em 8 marcos fundamentais:
 
-### 1. Chamada Inicial ao LLM (`src/example_research.py`)
-> **Objetivo:** Validar a conexão com a API do OpenRouter e a autenticação via variáveis de ambiente.
-
-* **O que faz:** Lê a chave de API de forma segura usando `python-dotenv` e faz uma requisição direta ao modelo gratuito `openrouter/free` via `ChatOpenRouter`.
-* **Conceito-chave:** Abstração de chamadas a modelos de linguagem e filtragem do conteúdo bruto da resposta via `resposta.content`.
-
----
-
-### 2. Primeiro Mini-RAG Funcional com Wikipedia (`src/mini_rag.py`)
-> **Objetivo:** Construir um pipeline RAG fim a fim alimentado por busca semântica em tempo real na Wikipedia.
-
-* **O que faz:**
-  1. **Coleta:** Baixa artigos sobre "Inteligência Artificial" e "História da Internet" via `WikipediaLoader`.
-  2. **Chunking:** Fatia os textos usando `RecursiveCharacterTextSplitter` (1000 caracteres, overlap de 200).
-  3. **Embedding & Vetores:** Gera vetores numéricos locais (`mxbai-embed-large-v1`) e salva no `ChromaDB`.
-  4. **Orquestração LangGraph:** Define um `StateGraph` de dois nós (`buscar_contexto` ➔ `gerar_resposta`).
-  5. **Interface:** Executa um loop interativo via terminal para o usuário fazer perguntas livres.
-
----
-
-### 3. Refatoração para Integração Oficial OpenRouter (`src/mini_rag_wikipedia.py`)
-> **Objetivo:** Refatorar a conexão do LLM para o pacote dedicado `langchain-openrouter`.
-
-* **O que faz:** Substitui a chamada genérica `ChatOpenAI(base_url=...)` pela classe nativa `ChatOpenRouter(model="openrouter/free")`.
-* **Conceito-chave:** Redução de código boilerplate, maior resiliência no roteamento automático de modelos gratuitos e gerenciamento nativo de headers de API.
+```text
+rag-pipeline-langchain-langgraph/
+│
+├── data/
+│   ├── pagina.html
+│   └── relatorio.pdf
+│
+├── src/
+│   ├── example_research.py       # 1. Validação de conexão e chamada direta ao LLM
+│   ├── mini_rag.py               # 2. Primeiro Mini-RAG funcional com Wikipedia & LangGraph
+│   ├── mini_rag_wikipedia.py     # 3. Refatoração para integração nativa do OpenRouter
+│   ├── mrag_wiki.py              # 4. RAG resiliente via Web Scraping com memória persistente
+│   ├── test_loaders.py           # 5. Extração e padronização de multi-formatos (PDF e HTML)
+│   ├── test_retrieval.py         # 6. Testes empíricos de busca e análise de ruído com top-k
+│   ├── test_parameters.py        # 7. Ajuste fino de parâmetros (threshold, metadados e personas)
+│   └── interface_rag.py          # 8. Aplicação web interativa de chatbot em Streamlit
+│
+├── .env.example                  # Modelo de variáveis de ambiente seguras
+├── .gitignore                    # Regras de exclusão de arquivos sensíveis e caches
+├── requirements.txt              # Gerenciador de dependências do projeto
+└── README.md                     # Documentação oficial do portfólio
+```
 
 ---
+
+## 🔬 Detalhamento Técnico dos Módulos
+
+### 1. Conexão Inicial ao LLM (`src/example_research.py`)
+* **Objetivo:** Validar a autenticação segura de credenciais via `python-dotenv` e testar a invocação direta do modelo gratuito na nuvem utilizando o wrapper `ChatOpenRouter`.
+
+### 2. Primeiro Mini-RAG Funcional (`src/mini_rag.py`)
+* **Objetivo:** Construir um fluxo fechado combinando ingestão de artigos da Wikipedia, divisão de texto em pedaços (*chunking* via `RecursiveCharacterTextSplitter`), vetorização local com HuggingFace, persistência no ChromaDB e orquestração sequencial de 2 nós com LangGraph.
+
+### 3. Integração Nativa OpenRouter (`src/mini_rag_wikipedia.py`)
+* **Objetivo:** Atualizar a arquitetura para utilizar o pacote dedicado `langchain-openrouter`, otimizando o roteamento dinâmico de modelos e o gerenciamento de headers HTTP.
 
 ### 4. RAG Resiliente com Memória de Conversação (`src/mrag_wiki.py`)
-> **Objetivo:** Resolver problemas de instabilidade em APIs de terceiros e adicionar retenção de contexto entre perguntas.
-
-* **O que faz:**
-  * **Ingestão Robusta via Web:** Substitui o `WikipediaLoader` frágil por `WebBaseLoader`, raspando diretamente as URLs oficiais e adicionando estratégias de *fallback* (contingência).
-  * **Memória Persistente (`MemorySaver`):** Atualiza o `AgentState` com `Annotated[list, add_messages]`.
-  * **Threads de Conversa:** Usa `thread_id` para permitir perguntas implícitas (ex: *"Quais foram os principais nomes desse marco?"* sem precisar repetir o assunto).
-
----
+* **Objetivo:** Substituir loaders instáveis por raspagem web robusta (`WebBaseLoader`), introduzindo persistência de histórico por threads de conversação através do `MemorySaver` do LangGraph.
 
 ### 5. Ingestão e Padronização de Multi-Formatos (`src/test_loaders.py`)
-> **Objetivo:** Demonstrar a capacidade de extração e padronização de documentos não estruturados corporativos (PDFs e HTMLs).
+* **Objetivo:** Demonstrar a capacidade de converter arquivos corporativos heterogêneos (relatórios PDF e páginas HTML brutas) no objeto universal e padronizado `Document` do LangChain, preservando metadados analíticos.
 
-* **O que faz:**
-  * **Leitura de PDFs:** Usa `PyPDFLoader` (`pypdf`) para fatiar um relatório corporativo página a página, capturando metadados avançados (`total_pages`, `producer`, `creationdate`).
-  * **Parsing de HTML Web:** Processa páginas HTML usando `BeautifulSoup`, tratando problemas de codificação (`utf-8`) e extraindo o título original da aba (`title`) e origem (`source`).
-* **Conceito-chave:** Prova prática de que qualquer arquivo bruto é convertido no padrão universal `Document` do LangChain.
+### 6. Validação de Recuperação & Comparação de Contexto (`src/test_retrieval.py`)
+* **Objetivo:** Avaliar empiricamente a diferença qualitativa entre respostas puras de conhecimento geral do LLM vs. respostas ancoradas em contexto recuperado (*RAG*), analisando o impacto do parâmetro `top-k` na introdução de ruídos.
+
+### 7. Ajuste Fino de Parâmetros e Prompts por Personas (`src/test_parameters.py`)
+* **Objetivo:** Controlar a precisão da busca aplicando limiares estritos de similaridade matemática (`score_threshold`), filtros direcionados de metadados e testando engenharia de prompts estilísticos (ex: *Consultor Técnico* com baixa temperatura vs. *Mentor Criativo* com alta temperatura).
+
+### 8. Interface Web Interativa (`src/interface_rag.py`)
+* **Objetivo:** Empacotar toda a lógica em uma aplicação gráfica web reativa utilizando **Streamlit**, oferecendo entrada de texto em tempo real, estados visuais de carregamento (`st.spinner`) e tratamento de exceções amigável.
 
 ---
 
-## ⚙️ Como Configurar e Executar
+## ⚙️ Guia de Instalação e Execução
 
 ### 1. Clonar o Repositório
 ```bash
@@ -80,14 +86,14 @@ git clone https://github.com/cesajr/rag-pipeline-langchain-langgraph.git
 cd rag-pipeline-langchain-langgraph
 ```
 
-### 2. Criar e Ativar o Ambiente Virtual
+### 2. Configurar o Ambiente Virtual
 ```bash
 python -m venv venv
 
 # Windows (PowerShell)
 .\venv\Scripts\activate
 
-# Linux/Mac
+# Linux / macOS
 source venv/bin/activate
 ```
 
@@ -96,26 +102,29 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 4. Configurar Variáveis de Ambiente
-Crie a sua chave de API gratuitamente no painel do [OpenRouter](https://openrouter.ai/). 
+### 4. Configurar as Chaves de Acesso
+Obtenha sua chave de API gratuita no painel do [OpenRouter](https://openrouter.ai/).
 
-Em seguida, crie um arquivo `.env` na raiz do projeto (baseado no `.env.example`):
+Crie um arquivo chamado `.env` na raiz do projeto (utilizando o `.env.example` como base):
 ```env
 OPENROUTER_API_KEY="sua-chave-aqui"
 ```
 
-### 5. Executar os Scripts
-* **Para testar o RAG com Memória e Web Scraping:**
+---
+
+## Como Executar os Scripts e Aplicações
+
+* **Para iniciar a interface web interativa (Streamlit):**
   ```bash
-  python src/mrag_wiki.py
+  streamlit run src/interface_rag.py
   ```
-* **Para testar os Loaders de PDF e HTML:**
+* **Para rodar os testes de parâmetros avançados e validações via terminal:**
   ```bash
-  python src/test_loaders.py
+  python src/test_parameters.py
   ```
 
 ---
 
 ## Segurança e Boas Práticas
-* O arquivo `.env` contendo as credenciais de produção está explicitamente listado no `.gitignore` e **nunca** é enviado ao controle de versão.
-* Inclusão do `.env.example` para documentar os pré-requisitos de execução do projeto de forma transparente sem expor chaves sensíveis.
+* **Proteção de Segredos:** Credenciais e chaves de produção residem exclusivamente no arquivo local `.env`, que é bloqueado pelo `.gitignore` e nunca enviado ao repositório remoto.
+* **Transparência de Modelos:** O arquivo `.env.example` fornece o gabarito das variáveis de ambiente necessárias para que outros desenvolvedores entendam a estrutura sem comprometer a segurança.
