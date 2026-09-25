@@ -1,12 +1,12 @@
 # Pipeline RAG: da conexão básica a grafos, parâmetros e interface web
 
-> **Aviso Importante:** Este repositório é mantido estritamente para **fins didáticos, de portfólio e evolução de estudos**. Ele serve como uma implementação de referência estruturada para o aprendizado de arquiteturas de *Retrieval-Augmented Generation* (RAG) e Engenharia de Agentes. **Contribuições externas e Pull Requests (PRs) não são aceitos.** Sinta-se à vontade para realizar um *fork* ou clonar para uso pessoal.
+> **Aviso Importante:** Este repositório é mantido estritamente para **fins didáticos, de portfólio e evolução de estudos**. Ele serve como uma implementação de referência estruturada para o aprendizado de arquiteturas de *Retrieval-Augmented Generation* (RAG) e Engenharia de Agentes. **Contribuições externas e Pull Requests (PRs) não estão habilitados.** Sinta-se à vontade para realizar um *fork* ou clonar para uso pessoal.
 
 ---
 
 ## Visão Geral do Projeto
 
-Este repositório registra a jornada prática de desenvolvimento e maturação de um pipeline de RAG end-to-end utilizando ecossistemas modernos em **Python**. O projeto evolui progressivamente desde chamadas diretas a modelos de linguagem até grafos de estados complexos com memória persistente, filtragem avançada por limiares de similaridade, metadados, engenharia de prompts por personas e uma interface gráfica web reativa.
+Este repositório registra a jornada prática de desenvolvimento e maturação de um pipeline de RAG end-to-end utilizando ecossistemas modernos em **Python**. O projeto evolui progressivamente desde chamadas diretas a modelos de linguagem até grafos de estados complexos com memória persistente, filtragem avançada por limiares de similaridade, metadados, engenharia de prompts por personas e aplicações gráficas interativas em Streamlit.
 
 ---
 
@@ -21,9 +21,9 @@ Este repositório registra a jornada prática de desenvolvimento e maturação d
 
 ---
 
-## 📂 Estrutura do Repositório e Etapas Evolutivas
+## Estrutura do Repositório e Etapas Evolutivas
 
-O código está organizado de forma modular e progressiva para demonstrar o domínio técnico em 8 marcos fundamentais:
+O código está organizado de forma modular e progressiva para demonstrar o domínio técnico através dos scripts presentes em `src/`:
 
 ```text
 rag-pipeline-langchain-langgraph/
@@ -40,7 +40,8 @@ rag-pipeline-langchain-langgraph/
 │   ├── test_loaders.py           # 5. Extração e padronização de multi-formatos (PDF e HTML)
 │   ├── test_retrieval.py         # 6. Testes empíricos de busca e análise de ruído com top-k
 │   ├── test_parameters.py        # 7. Ajuste fino de parâmetros (threshold, metadados e personas)
-│   └── interface_rag.py          # 8. Aplicação web interativa de chatbot em Streamlit
+│   ├── chatbot.py                # 8. Interface web de Chatbot com Memória de Conversação
+│   └── chatbot_rag.py            # 9. Interface web reativa completa de RAG
 │
 ├── .env.example                  # Modelo de variáveis de ambiente seguras
 ├── .gitignore                    # Regras de exclusão de arquivos sensíveis e caches
@@ -53,7 +54,7 @@ rag-pipeline-langchain-langgraph/
 ## Detalhamento Técnico dos Módulos
 
 ### 1. Conexão Inicial ao LLM (`src/example_research.py`)
-* **Objetivo:** Validar a autenticação segura de credenciais via `python-dotenv` e testar a invocação direta do modelo gratuito na nuvem utilizando o wrapper `ChatOpenRouter`.
+* **Objetivo:** Validar a autenticação segura de credenciais via `python-dotenv` e testar a invocação direta do modelo na nuvem utilizando o wrapper `ChatOpenRouter`.
 
 ### 2. Primeiro Mini-RAG Funcional (`src/mini_rag.py`)
 * **Objetivo:** Construir um fluxo fechado combinando ingestão de artigos da Wikipedia, divisão de texto em pedaços (*chunking* via `RecursiveCharacterTextSplitter`), vetorização local com HuggingFace, persistência no ChromaDB e orquestração sequencial de 2 nós com LangGraph.
@@ -61,7 +62,7 @@ rag-pipeline-langchain-langgraph/
 ### 3. Integração Nativa OpenRouter (`src/mini_rag_wikipedia.py`)
 * **Objetivo:** Atualizar a arquitetura para utilizar o pacote dedicado `langchain-openrouter`, otimizando o roteamento dinâmico de modelos e o gerenciamento de headers HTTP.
 
-### 4. RAG Resiliente com Memória de Conversação (`src/mrag_wiki.py`)
+### 4. RAG Resiliente com Memória (`src/mrag_wiki.py`)
 * **Objetivo:** Substituir loaders instáveis por raspagem web robusta (`WebBaseLoader`), introduzindo persistência de histórico por threads de conversação através do `MemorySaver` do LangGraph.
 
 ### 5. Ingestão e Padronização de Multi-Formatos (`src/test_loaders.py`)
@@ -71,10 +72,13 @@ rag-pipeline-langchain-langgraph/
 * **Objetivo:** Avaliar empiricamente a diferença qualitativa entre respostas puras de conhecimento geral do LLM vs. respostas ancoradas em contexto recuperado (*RAG*), analisando o impacto do parâmetro `top-k` na introdução de ruídos.
 
 ### 7. Ajuste Fino de Parâmetros e Prompts por Personas (`src/test_parameters.py`)
-* **Objetivo:** Controlar a precisão da busca aplicando limiares estritos de similaridade matemática (`score_threshold`), filtros direcionados de metadados e testando engenharia de prompts estilísticos (ex: *Consultor Técnico* com baixa temperatura vs. *Mentor Criativo* com alta temperatura).
+* **Objetivo:** Controlar a precisão da busca aplicando limiares estritos de similaridade matemática (`score_threshold`), filtros direcionados de metadados e testando engenharia de prompts estilísticos (ex: *Consultor Técnico* vs. *Mentor Criativo*).
 
-### 8. Interface Web Interativa (`src/interface_rag.py`)
-* **Objetivo:** Empacotar toda a lógica em uma aplicação gráfica web reativa utilizando **Streamlit**, oferecendo entrada de texto em tempo real, estados visuais de carregamento (`st.spinner`) e tratamento de exceções amigável.
+### 8. Chatbot com Memória de Conversação (`src/chatbot.py`)
+* **Objetivo:** Implementar uma interface interativa em Streamlit que mantém e reutiliza o histórico do diálogo (`HumanMessage` e `AIMessage`) via `st.session_state`, permitindo acompanhar o contexto e redefinir a memória.
+
+### 9. Aplicação RAG Web Completa (`src/chatbot_rag.py`)
+* **Objetivo:** Unificar o pipeline de recuperação semântica no banco vetorial com uma interface gráfica reativa em Streamlit, oferecendo busca de documentos, feedback de carregamento em tempo real (`st.spinner`) e geração de respostas fundamentadas.
 
 ---
 
@@ -114,11 +118,17 @@ OPENROUTER_API_KEY="sua-chave-aqui"
 
 ## Como Executar os Scripts e Aplicações
 
-* **Para iniciar a interface web interativa (Streamlit):**
+* **Para iniciar a interface do Chatbot RAG em Streamlit:**
   ```bash
-  streamlit run src/interface_rag.py
+  streamlit run src/chatbot_rag.py
   ```
-* **Para rodar os testes de parâmetros avançados e validações via terminal:**
+
+* **Para iniciar o Chatbot com memória de conversa:**
+  ```bash
+  streamlit run src/chatbot.py
+  ```
+
+* **Para rodar os testes de parâmetros avançados via terminal:**
   ```bash
   python src/test_parameters.py
   ```
