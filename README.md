@@ -101,7 +101,7 @@ Crie a sua chave de API gratuitamente no painel do [OpenRouter](https://openrout
 
 Em seguida, crie um arquivo `.env` na raiz do projeto (baseado no `.env.example`):
 ```env
-OPENROUTER_API_KEY="sk-or-v1-sua-chave-aqui"
+OPENROUTER_API_KEY="sua-chave-aqui"
 ```
 
 ### 5. Executar os Scripts
